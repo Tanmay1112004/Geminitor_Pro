@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geminitor Pro — Sign In</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🤖</text></svg>" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #0d0d0d;
+      color: #ececec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    body {
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(16,163,127,.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(84,54,218,.06) 0%, transparent 60%);
+    }
+    .auth-wrapper {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+    }
+    .auth-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 36px 32px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
+      animation: slideUp .3s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .auth-logo-icon { font-size: 2.4rem; display: block; margin-bottom: 8px; }
+    .auth-logo h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ececec;
+    }
+    .auth-logo p {
+      font-size: .82rem;
+      color: #8e8ea0;
+      margin-top: 4px;
+    }
+    .tab-bar {
+      display: flex;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 3px;
+      margin-bottom: 26px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 9px;
+      border: none;
+      background: transparent;
+      color: #8e8ea0;
+      font-size: .88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .tab-btn.active {
+      background: rgba(16,163,127,.2);
+      color: #10a37f;
+      box-shadow: 0 0 0 1px rgba(16,163,127,.3);
+    }
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+    .field {
+      margin-bottom: 14px;
+    }
+    .field label {
+      display: block;
+      font-size: .8rem;
+      color: #8e8ea0;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .input-wrap {
+      position: relative;
+    }
+    .field input {
+      width: 100%;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 11px 40px 11px 14px;
+      color: #ececec;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      font-family: inherit;
+    }
+    .field input::placeholder { color: #555; }
+    .field input:focus {
+      border-color: rgba(16,163,127,.6);
+      box-shadow: 0 0 0 3px rgba(16,163,127,.1);
+    }
+    .toggle-pw {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #8e8ea0;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0;
+      line-height: 1;
+      transition: color .15s;
+    }
+    .toggle-pw:hover { color: #ececec; }
+    .pw-strength {
+      margin-top: 7px;
+    }
+    .pw-strength-bar {
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(255,255,255,.1);
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .pw-strength-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width .3s, background .3s;
+      width: 0%;
+    }
+    .pw-strength-label {
+      font-size: .73rem;
+      color: #8e8ea0;
+    }
+    .primary-btn {
+      width: 100%;
+      padding: 12px;
+      background: #10a37f;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: .92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      margin-top: 6px;
+      font-family: inherit;
+    }
+    .primary-btn:hover { background: #0e8f6e; }
+    .primary-btn:active { transform: scale(.98); }
+    .primary-btn:disabled { opacity: .55; cursor: not-allowed; }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0;
+      color: #555;
+      font-size: .8rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.08);
+    }
+    .google-btn {
+      width: 100%;
+      padding: 11px;
+      background: #fff;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 10px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background .2s, transform .1s;
+      font-family: inherit;
+    }
+    .google-btn:hover { background: #f0f0f0; }
+    .google-btn:active { transform: scale(.98); }
+    .google-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: .8rem;
+      color: #10a37f;
+      text-decoration: none;
+      margin-top: -6px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+    .error-msg {
+      background: rgba(229,115,115,.1);
+      border: 1px solid rgba(229,115,115,.3);
+      color: #e57373;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: .83rem;
+      margin-top: 12px;
+      display: none;
+      animation: fadeIn .2s ease;
+    }
+    .error-msg.show { display: block; }
+    .success-msg {
+      background: rgba(16,163,127,.1);
+      border: 1px solid rgba(16,163,127,.3);
+      color: #10a37f;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: .83rem;
+      margin-top: 12px;
+      display: none;
+    }
+    .success-msg.show { display: block; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .loading-spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <span class="auth-logo-icon">🤖</span>
+      <h1>Geminitor Pro</h1>
+      <p>Powered by Gemini 2.5 Flash</p>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login</button>
+      <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="form-panel active" id="panel-login">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="input-wrap">
+          <input type="password" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
+          <button class="toggle-pw" type="button" onclick="togglePw('login-password', this)">👁️</button>
+        </div>
+      </div>
+      <a class="forgot-link" onclick="doForgotPassword()">Forgot Password?</a>
+      <button class="primary-btn" id="login-btn" onclick="doLogin()">Login</button>
+      <div class="divider">or</div>
+      <button class="google-btn" onclick="doGoogleSignIn()">
+        <svg class="google-icon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+        Continue with Google
+      </button>
+      <div class="error-msg" id="login-error"></div>
+      <div class="success-msg" id="login-success"></div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div class="form-panel" id="panel-signup">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="signup-name" placeholder="Your Name" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="input-wrap">
+          <input type="password" id="signup-password" placeholder="Min 8 characters" oninput="checkPasswordStrength()" />
+          <button class="toggle-pw" type="button" onclick="togglePw('signup-password', this)">👁️</button>
+        </div>
+        <div class="pw-strength">
+          <div class="pw-strength-bar"><div class="pw-strength-fill" id="pw-fill"></div></div>
+          <span class="pw-strength-label" id="pw-label">Enter a password</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <div class="input-wrap">
+          <input type="password" id="signup-confirm" placeholder="Re-enter password" onkeydown="if(event.key==='Enter')doSignup()" />
+          <button class="toggle-pw" type="button" onclick="togglePw('signup-confirm', this)">👁️</button>
+        </div>
+      </div>
+      <button class="primary-btn" id="signup-btn" onclick="doSignup()">Create Account</button>
+      <div class="divider">or</div>
+      <button class="google-btn" onclick="doGoogleSignIn()">
+        <svg class="google-icon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+        Continue with Google
+      </button>
+      <div class="error-msg" id="signup-error"></div>
+      <div class="success-msg" id="signup-success"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="firebase.js"></script>
+
+<script>
+  // ── Redirect if already logged in ──────────────────────────────────
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) window.location.href = "/";
+  });
+
+  // ── Tab switching ───────────────────────────────────────────────────
+  function switchTab(tab) {
+    document.getElementById("panel-login").classList.toggle("active", tab === "login");
+    document.getElementById("panel-signup").classList.toggle("active", tab === "signup");
+    document.getElementById("tab-login").classList.toggle("active", tab === "login");
+    document.getElementById("tab-signup").classList.toggle("active", tab === "signup");
+  }
+
+  // ── Password toggle ─────────────────────────────────────────────────
+  function togglePw(inputId, btn) {
+    const inp = document.getElementById(inputId);
+    if (inp.type === "password") { inp.type = "text"; btn.textContent = "🙈"; }
+    else { inp.type = "password"; btn.textContent = "👁️"; }
+  }
+
+  // ── Password strength ───────────────────────────────────────────────
+  function checkPasswordStrength() {
+    const pw = document.getElementById("signup-password").value;
+    const fill = document.getElementById("pw-fill");
+    const label = document.getElementById("pw-label");
+    if (!pw) { fill.style.width = "0%"; label.textContent = "Enter a password"; return; }
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/\d/.test(pw)) score++;
+    if (/[^a-zA-Z0-9]/.test(pw)) score++;
+    if (pw.length >= 12) score++;
+    const levels = [
+      { w: "0%",   color: "transparent", text: "Too short" },
+      { w: "33%",  color: "#e57373",     text: "Weak" },
+      { w: "60%",  color: "#ffa726",     text: "Medium" },
+      { w: "85%",  color: "#66bb6a",     text: "Strong" },
+      { w: "100%", color: "#10a37f",     text: "Very Strong" },
+    ];
+    const lvl = levels[Math.min(score, 4)];
+    fill.style.width = lvl.w;
+    fill.style.background = lvl.color;
+    label.textContent = lvl.text;
+    label.style.color = lvl.color || "#8e8ea0";
+  }
+
+  // ── Show error/success ──────────────────────────────────────────────
+  function showError(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = "error-msg show";
+  }
+  function showSuccess(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = "success-msg show";
+  }
+  function clearMessages(prefix) {
+    document.getElementById(prefix + "-error").className = "error-msg";
+    document.getElementById(prefix + "-success").className = "success-msg";
+  }
+
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    if (loading) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="loading-spinner"></span> Please wait…`;
+    } else {
+      btn.disabled = false;
+      btn.innerHTML = btnId === "login-btn" ? "Login" : "Create Account";
+    }
+  }
+
+  // ── Login ───────────────────────────────────────────────────────────
+  async function doLogin() {
+    clearMessages("login");
+    const email    = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+    if (!email || !password) return showError("login-error", "Please fill in all fields.");
+    setLoading("login-btn", true);
+    try {
+      await loginWithEmail(email, password);
+      window.location.href = "/";
+    } catch (e) {
+      setLoading("login-btn", false);
+      showError("login-error", friendlyError(e.code));
+    }
+  }
+
+  // ── Sign Up ─────────────────────────────────────────────────────────
+  async function doSignup() {
+    clearMessages("signup");
+    const name     = document.getElementById("signup-name").value.trim();
+    const email    = document.getElementById("signup-email").value.trim();
+    const password = document.getElementById("signup-password").value;
+    const confirm  = document.getElementById("signup-confirm").value;
+    if (!name || !email || !password || !confirm) return showError("signup-error", "Please fill in all fields.");
+    if (password !== confirm) return showError("signup-error", "Passwords do not match.");
+    if (password.length < 6) return showError("signup-error", "Password must be at least 6 characters.");
+    setLoading("signup-btn", true);
+    try {
+      await signupWithEmail(name, email, password);
+      window.location.href = "/";
+    } catch (e) {
+      setLoading("signup-btn", false);
+      showError("signup-error", friendlyError(e.code));
+    }
+  }
+
+  // ── Google ──────────────────────────────────────────────────────────
+  async function doGoogleSignIn() {
+    try {
+      await loginWithGoogle();
+      window.location.href = "/";
+    } catch (e) {
+      const prefix = document.getElementById("panel-login").classList.contains("active") ? "login" : "signup";
+      showError(prefix + "-error", friendlyError(e.code));
+    }
+  }
+
+  // ── Forgot Password ─────────────────────────────────────────────────
+  async function doForgotPassword() {
+    clearMessages("login");
+    const email = document.getElementById("login-email").value.trim();
+    if (!email) return showError("login-error", "Enter your email address first.");
+    try {
+      await sendPasswordReset(email);
+      showSuccess("login-success", `Reset email sent to ${email}`);
+    } catch (e) {
+      showError("login-error", friendlyError(e.code));
+    }
+  }
+
+  // ── Error messages ──────────────────────────────────────────────────
+  function friendlyError(code) {
+    const map = {
+      "auth/user-not-found":       "No account found with this email.",
+      "auth/wrong-password":       "Incorrect password. Please try again.",
+      "auth/email-already-in-use": "An account with this email already exists.",
+      "auth/invalid-email":        "Please enter a valid email address.",
+      "auth/weak-password":        "Password must be at least 6 characters.",
+      "auth/too-many-requests":    "Too many attempts. Please try again later.",
+      "auth/popup-closed-by-user": "Sign-in popup was closed. Please try again.",
+      "auth/network-request-failed": "Network error. Check your connection.",
+      "auth/invalid-credential":   "Invalid email or password.",
+    };
+    return map[code] || "Something went wrong. Please try again.";
+  }
+</script>
+</body>
+</html>
