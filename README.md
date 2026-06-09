@@ -1,7 +1,3 @@
-Yes. For recruiters and HRs, the README should look polished, business-focused, and showcase the project's value, technologies, and features rather than only setup commands.
-
-You can use something like this:
-
 # Geminitor Pro – AI Conversational Assistant
 
 ## Overview
