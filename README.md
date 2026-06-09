@@ -174,5 +174,3 @@ uvicorn backend.main:app --host 0.0.0.0 --port 5000 --reload
 ✔ Designed a personalized AI experience through multiple intelligent personas
 
 ---
-
-This version looks much stronger on GitHub when HRs, recruiters, internship mentors, or hiring managers open your repository. It highlights your **AI, Backend, Cloud, and Full-Stack skills** immediately instead of focusing only on installation steps.
