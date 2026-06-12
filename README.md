@@ -8,6 +8,12 @@ AI chatbot powered by Google Gemini and LangChain. Built with FastAPI, featuring
 
 ![demo]()
 
+![demo]()
+
+![demo]()
+
+![demo]()
+
 
 
 
