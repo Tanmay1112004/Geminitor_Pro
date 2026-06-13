@@ -14,6 +14,10 @@ AI chatbot powered by Google Gemini and LangChain. Built with FastAPI, featuring
 
 ![demo](https://github.com/Tanmay1112004/Geminitor_Pro/blob/main/demo_app_screenshots/Screenshot_3-6-2026_19150_geminitor-smart-gemini-chatbot-with-lang-smith--kshirsagarrutuj.replit.app.jpeg)
 
+![demo](https://github.com/Tanmay1112004/Geminitor_Pro/blob/main/demo_app_screenshots/Screenshot_3-6-2026_193250_geminitor-smart-gemini-chatbot-with-lang-smith--kshirsagarrutuj.replit.app.jpeg)
+
+
+
 
 
 
