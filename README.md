@@ -88,7 +88,7 @@ Geminitor-Pro/
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Tanmay1112004/Geminitor_Pro
 cd geminitor-pro
 ```
 
